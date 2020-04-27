@@ -1,0 +1,9 @@
+<launch>
+
+<env name="ROS_MASTER_URI" value="http://ubiquityrobot.local:11311" />
+<env name = "ROS_IP" value = "10.42.0.90"/>
+
+<node pkg="doofbot" name="doofbot_gui" type="doofbot_gui.py" output="screen">
+ </node>
+
+</launch>

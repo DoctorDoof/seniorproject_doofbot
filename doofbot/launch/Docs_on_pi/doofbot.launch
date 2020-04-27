@@ -1,0 +1,66 @@
+<launch>
+
+
+<node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+    <param name="framerate" value="20" />
+ </node>
+
+
+<node name="image_view" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <remap from="image" to="/usb_cam/image_raw"/>
+    <param name="autosize" value="true" />
+ </node>
+
+<node pkg="doofbot" name="middleman" type="db_middleman.py" output="screen"$
+ </node>
+
+<node pkg="doofbot" name="left_encoder" type="left_encoder_publisher.py" ou$
+ </node>
+
+<node pkg="doofbot" name="right_encoder" type="right_encoder_publisher.py" $
+ </node>
+
+<node pkg="doofbot" name="control_effort_left" type="control_effort_left.py" output ="screen" >
+ </node>
+
+<node pkg="doofbot" name="control_effort_right" type="control_effort_right.py" output ="screen" >
+ </node>
+
+<node pkg="doofbot" name="control_check" type="control_check.py" output ="screen" >
+ </node>
+
+<node pkg="doofbot" name="left_encoder_vel" type="speed_left.py" output ="screen" >
+ </node>
+
+<node pkg="doofbot" name="right_encoder_vel" type="speed_right.py" output ="screen" >
+ </node>
+
+<node name="controller" pkg="pid" type="controller" ns="right_wheel" output="screen" >
+      <param name="node_name" value="left_wheel_pid" />
+      <param name="Kp" value="2.3" />
+      <param name="Ki" value="1.1" />
+      <param name="Kd" value="0.8" />
+      <param name="upper_limit" value="1" />
+      <param name="lower_limit" value="-1" />
+      <param name="windup_limit" value="0.1" />
+      <remap from="setpoint" to="/setpoint" />
+</node>
+
+<node name="controller" pkg="pid" type="controller" ns="left_velocity" output="screen" >
+      <param name="node_name" value="left_wheel_pid" />
+      <param name="Kp" value="0.55" />
+      <param name="Ki" value="1.2" />
+      <param name="Kd" value="0" />
+      <param name="upper_limit" value="1" />
+      <param name="lower_limit" value="-1" />
+      <remap from="state" to="/left_wheel/abs_vel" />
+      <remap from="setpoint" to="/right_wheel/abs_vel" />
+</node>
+
+</launch>

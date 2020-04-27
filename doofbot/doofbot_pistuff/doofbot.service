@@ -1,0 +1,16 @@
+(in area /etc/systemd/system/)
+
+[Unit]
+
+After=roscore.service
+
+Restart=on-abort
+
+[Service]
+
+ExecStart=/usr/local/bin/doofbotservice.sh
+
+[Install]
+
+WantedBy=default.target
+
