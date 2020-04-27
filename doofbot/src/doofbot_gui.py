@@ -42,6 +42,7 @@ class doofbot:
         self.cur_right = 0
         self.err_val_l = 0
         self.err_val_r = 0
+        self.gridimage = []
 
     def reset(self):
         self.error_check = ''
@@ -453,6 +454,10 @@ def Controlled_Movement(string):
             pub_error_r.pub.publish(db.r_error)
             pub_error_lt.pub.publish(db.lt_error)
             pub_error_rt.pub.publish(db.rt_error)
+            #IMAGE PROCESS CHECK FOR STUFF
+            #db.cur_left = rospy.wait_for_message("/left_wheel/state", Float64)
+            #Checkifnewstuff()
+
             time.sleep(1) 
 def auto_Foward(distance):
     db.error_check = 'for'
@@ -1227,7 +1232,8 @@ def auto_press():
                 if total > 0:
                     auto_Foward(total)
                 print('Path Navigation is Finished, Returning to Main Screen')
-
+            #if the map changed:
+            #    restart the autostart()
         #### END PATH MAKER ############
     ############# END MOVEMENT OVER PATH, RESETS MAIN PROGRAM WHEN FIN ################
 
@@ -1276,6 +1282,14 @@ def auto_press():
     init_Main()
 #Defines the Main GUI
 
+def checkforstuff():
+    #Compare db.grid to db.newgrid
+    # if different
+    # changemap() ---> map[] = newmap[]
+    #map directioons:
+    # if direction == 'negX'
+    # autostart()
+    pass
 
 def init_Main():
     #INITIALIZE A GUI MENU
